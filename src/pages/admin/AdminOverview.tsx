@@ -34,8 +34,8 @@ export function AdminOverview() {
     setError('')
     try {
       const [
-        studentsResult,
-        coursesResult,
+        ,
+        ,
         studentCountResult,
         activePlanEntitlementsResult,
         draftsResult,
@@ -122,7 +122,7 @@ export function AdminOverview() {
                   <p>{session.course?.title} · {session.status}</p>
                   <small>{formatDate(session.scheduled_at)}</small>
                 </div>
-                <Link className="button button-small button-outline" to={/classroom/}>Open Classroom</Link>
+                <Link className="button button-small button-outline" to="/classroom/">Open Classroom</Link>
               </article>
             ))}
           </div>

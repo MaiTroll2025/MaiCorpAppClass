@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { supabase } from '../../lib/supabase'
 import { getPublicLaunchStats, setPublicLaunchAt } from '../../lib/launch'
 
 function formatDate(value: string | null) {
