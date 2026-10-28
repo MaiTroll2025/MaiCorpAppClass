@@ -135,9 +135,11 @@ export function AdminStreamSetupPage() {
     setError('')
     stopCameraTest()
     try {
-      const { data: session, error: insertError } = await supabase
+      const sessionId = crypto.randomUUID()
+      const { error: insertError } = await supabase
         .from('class_sessions')
         .insert({
+          id: sessionId,
           course_id: course.id,
           lesson_id: null,
           instructor_id: course.instructor_id,
@@ -149,12 +151,9 @@ export function AdminStreamSetupPage() {
           public_stream_enabled: true,
           public_qa_enabled: true,
         })
-        .select('id')
-        .single()
       if (insertError) throw new Error(`Could not set up the stream: ${insertError.message}`)
-      if (!session?.id) throw new Error('The class was created but no stream ID was returned.')
 
-      navigate(`/admin/streams/${session.id}`)
+      navigate(`/admin/streams/${sessionId}`)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Could not create the stream.')
       setBusy(false)

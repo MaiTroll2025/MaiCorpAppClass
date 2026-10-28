@@ -796,11 +796,11 @@ function DashboardClassSetup({ role, onScheduled }: { role: 'admin' | 'instructo
     setError('')
     setNotice('')
     try {
-      // Schedule one minute ahead so the session is valid for the same server-authorized
-      // start window used by the classroom controls, then use the lifecycle RPC.
-      const { data: created, error: insertError } = await supabase
+      const sessionId = crypto.randomUUID()
+      const { error: insertError } = await supabase
         .from('class_sessions')
         .insert({
+          id: sessionId,
           course_id: course.id,
           lesson_id: null,
           instructor_id: course.instructor_id,
@@ -810,19 +810,16 @@ function DashboardClassSetup({ role, onScheduled }: { role: 'admin' | 'instructo
           scheduled_at: new Date(Date.now() + 60_000).toISOString(),
           expected_duration_minutes: minutes,
         })
-        .select('id')
-        .single()
       if (insertError) throw new Error(`Could not create the class: ${insertError.message}`)
-      if (!created?.id) throw new Error('The class was created but its session ID was not returned.')
 
       const { error: startError } = await supabase.rpc('start_class_session', {
-        target_session_id: created.id,
+        target_session_id: sessionId,
       })
       if (startError) {
         throw new Error(`The class was created, but could not be started: ${startError.message}. It remains scheduled so you can start it from your dashboard.`)
       }
       onScheduled()
-      navigate(`/classroom/${created.id}`)
+      navigate(`/classroom/${sessionId}`)
     } catch (cause) {
       setError(messageFor(cause))
       setBusy(false)
@@ -1206,7 +1203,6 @@ function DashboardSection({ id, title, eyebrow, children }: { id?: string; title
 function FeatureState({ title, text }: { title: string; text: string }) {
   return <article className="dashboard-card"><h3>{title}</h3><p>{text}</p></article>
 }
-
 
 
 
