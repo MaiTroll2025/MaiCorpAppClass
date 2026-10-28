@@ -77,12 +77,12 @@ export function AdminCourses() {
 
   const deleteCourse = async (course: Course) => {
     if (!supabase) return
-    if (!confirm(Delete ""? This will also delete all lessons. This action cannot be undone.)) return
+    if (!confirm(`Delete "${course.title}"? This will also delete all lessons. This action cannot be undone.`)) return
     setBusy(course.id)
     try {
       const { error } = await supabase.from('courses').delete().eq('id', course.id)
       if (error) throw error
-      setActionMsg("" deleted)
+      setActionMsg(`${course.title} deleted`)
       await load()
     } catch (cause) {
       setActionMsg(cause instanceof Error ? cause.message : 'Failed to delete')
