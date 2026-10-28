@@ -20,7 +20,7 @@
 
 ## Required deployment configuration
 
-Apply migrations in order, including `20261030000000_interactive_classroom_and_public_qa.sql`, and deploy `supabase/functions/agora-token`. No migration was applied to local or remote Postgres during this task.
+The `20261031000000_public_streams_and_student_interest.sql` migration is applied to the linked production project `pbwzseeovztzjctppftl`. All four functions (`agora-token`, `public-stream-token`, `public-recording-url`, and `paypal-checkout`) are deployed and active there. The exact production CORS origin is `https://maicorpappclass.onrender.com`; no local development origin is allowlisted.
 
 Configure these Supabase Edge Function secrets:
 
@@ -34,13 +34,15 @@ Configure these Supabase Edge Function secrets:
 
 `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` are provided by the Supabase Edge Function environment. Do not copy the Agora certificate, PayPal client secret, preview HMAC secret, or Supabase service-role key into a `VITE_*` setting.
 
+`APP_ALLOWED_ORIGINS`, `STREAM_PREVIEW_HMAC_SECRET`, and `PAYPAL_ENVIRONMENT=live` are configured in the linked project. Add the PayPal Live `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` directly in Supabase Edge Function Secrets before enabling purchases. Those two values are not configured, so PayPal checkout currently returns an unavailable/configuration error.
+
 In the Agora console, enable token authentication and co-host publish-privilege enforcement for the app. Agora's user-account privilege token API documents that publish-audio/video privileges are enforced only when co-host authentication is enabled. Until that is enabled and tested, the database authorization is present but RTC publish restrictions are not proven effective.
 
 The RTC token expires after 15 minutes and is renewed against the database. A class restriction is pushed to the participant UI, which attempts to leave the RTC room; there is no Agora server-side forced-disconnect API integration in this repository. A hostile already-connected client may retain a connection until provider enforcement or token expiry.
 
 ## Not implemented or not live-verified
 
-- PayPal checkout remains unavailable until the Edge Function is deployed with sandbox/live credentials and the verified payment and entitlement flow has been tested. There is no refund, dispute, or receipt-management workflow in the app.
+- PayPal checkout remains unavailable until the PayPal Live client credentials are added and the verified payment and entitlement flow has been tested. There is no refund, dispute, or receipt-management workflow in the app.
 - Recordings are moderator-uploaded MP4/WebM files with a 50 MB bucket limit; there is no automated Agora recording pipeline, consent workflow, transcoding, or retention policy.
 - RTC attendee removal currently blocks database access and causes the normal client to leave after a realtime update; it does not use Agora's server-side kick API.
 - Attendance is client-confirmed after successful SDK join, not provider-webhook-attested. Do not use it as payment evidence or as a tamper-proof certification record.

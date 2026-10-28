@@ -42,7 +42,7 @@ export function AdminStudents() {
   const toggleStatus = async (student: any) => {
     if (!supabase) return
     const newStatus = student.account_status === 'active' ? 'suspended' : 'active'
-    if (!confirm(${newStatus === 'suspended' ? 'Suspend' : 'Reinstate'} ?)) return
+    if (!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Reinstate'}?`)) return
     setBusy(student.id)
     setActionMsg('')
     try {
@@ -51,7 +51,7 @@ export function AdminStudents() {
         .update({ account_status: newStatus })
         .eq('id', student.id)
       if (error) throw error
-      setActionMsg(Student )
+      setActionMsg('Status updated')
       await load()
     } catch (cause) {
       setActionMsg(cause instanceof Error ? cause.message : 'Failed to update')
@@ -99,11 +99,11 @@ export function AdminStudents() {
                 {filtered.map((student) => (
                   <tr key={student.id}>
                     <td><strong>{student.display_name || 'Unnamed'}</strong></td>
-                    <td><span className={status-badge status-}>{student.account_status}</span></td>
+                    <td><span className={`status-badge status-${student.account_status}`}>{student.account_status}</span></td>
                     <td>{formatDate(student.created_at)}</td>
                     <td>
                       <button 
-                        className={utton button-small }
+                        className="button button-small"
                         onClick={() => toggleStatus(student)}
                         disabled={busy === student.id}
                       >

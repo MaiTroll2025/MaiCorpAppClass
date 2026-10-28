@@ -53,7 +53,7 @@ export function AdminClasses() {
       if (error) throw error
       setActionMsg('Class started successfully')
       await load()
-      navigate(/classroom/)
+      navigate('/classroom/')
     } catch (cause) {
       setActionMsg(cause instanceof Error ? cause.message : 'Failed to start class')
     } finally {
@@ -127,7 +127,7 @@ export function AdminClasses() {
                     <td>{session.course?.title || 'N/A'}</td>
                     <td>{session.instructor?.display_name || 'N/A'}</td>
                     <td>{formatDate(session.scheduled_at)}</td>
-                    <td><span className={status-badge status-}>{session.status}</span></td>
+                    <td><span className={`status-badge status-${session.status}`}>{session.status}</span></td>
                     <td>
                       <div className="admin-table-actions">
                         {session.status === 'scheduled' && (
@@ -137,14 +137,14 @@ export function AdminClasses() {
                         )}
                         {session.status === 'live' && (
                           <>
-                            <button className="button button-small button-dark" onClick={() => navigate(/classroom/)}>Open</button>
+                            <button className="button button-small button-dark" onClick={() => navigate('/classroom/')}>Open</button>
                             <button className="button button-small button-outline" onClick={() => endClass(session.id)} disabled={busy === session.id}>End</button>
                           </>
                         )}
                         {session.status === 'scheduled' && (
                           <button className="button button-small button-danger" onClick={() => cancelClass(session.id)} disabled={busy === session.id}>Cancel</button>
                         )}
-                        <Link className="button button-small button-outline" to={/classroom/}>View</Link>
+                        <Link className="button button-small button-outline" to="/classroom/">View</Link>
                       </div>
                     </td>
                   </tr>

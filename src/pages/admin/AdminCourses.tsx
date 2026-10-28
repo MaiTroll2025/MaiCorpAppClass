@@ -54,7 +54,7 @@ export function AdminCourses() {
     setActionMsg('')
     try {
       const nextStatus = course.status === 'published' ? 'draft' : 'published'
-      if (!confirm(${nextStatus === 'published' ? 'Publish' : 'Unpublish'} ""?)) {
+      if (!confirm(`${nextStatus === 'published' ? 'Publish' : 'Unpublish'} "${course.title}"?`)) {
         setBusy('')
         return
       }
@@ -66,7 +66,7 @@ export function AdminCourses() {
         })
         .eq('id', course.id)
       if (error) throw error
-      setActionMsg("" is now )
+      setActionMsg(`${course.title} is now ${nextStatus}`)
       await load()
     } catch (cause) {
       setActionMsg(cause instanceof Error ? cause.message : 'Failed to update')
@@ -124,13 +124,13 @@ export function AdminCourses() {
                       <strong>{course.title}</strong><br/>
                       <small>/{course.slug}</small>
                     </td>
-                    <td><span className={status-badge status-}>{course.status}</span></td>
-                    <td>{course.required_plan_id ? Plan:  : course.access_level}</td>
+                    <td><span className={`status-badge status-${course.status}`}>{course.status}</span></td>
+                    <td>{course.required_plan_id ? `Plan: ${course.required_plan_id}` : course.access_level}</td>
                     <td>{formatDate(course.updated_at)}</td>
                     <td>
                       <div className="admin-table-actions">
-                        <Link className="button button-small button-outline" to={/admin/course-editor?id=}>Edit</Link>
-                        <Link className="button button-small button-outline" to={/courses/} target="_blank">Preview</Link>
+                        <Link className="button button-small button-outline" to={`/admin/course-editor?id=${course.id}`}>Edit</Link>
+                        <Link className="button button-small button-outline" to={`/courses/${course.slug}`} target="_blank">Preview</Link>
                         {course.status !== 'archived' && (
                           <button 
                             className="button button-small button-dark" 
