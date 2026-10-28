@@ -1,0 +1,76 @@
+{
+  "name": "mai-corp-app-class-companion",
+  "displayName": "Mai Corp App Class Companion",
+  "description": "Local-first learning tools and Secret Shield for Mai Corp App Class students.",
+  "version": "0.1.0",
+  "publisher": "mai-corp-app-class",
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "maiCorpCompanion.scanCurrentFile", "title": "Mai Corp: Scan Current File" },
+      { "command": "maiCorpCompanion.scanWorkspace", "title": "Mai Corp: Scan Workspace" },
+      { "command": "maiCorpCompanion.scanGitChanges", "title": "Mai Corp: Scan Git Changes" },
+      { "command": "maiCorpCompanion.reviewFindings", "title": "Mai Corp: Review Secret Shield Findings" },
+      { "command": "maiCorpCompanion.sanitizeSelection", "title": "Mai Corp: Sanitize Selected Content" },
+      { "command": "maiCorpCompanion.previewSanitized", "title": "Mai Corp: Preview Sanitized Current File" },
+      { "command": "maiCorpCompanion.enableShield", "title": "Mai Corp: Enable Secret Shield" },
+      { "command": "maiCorpCompanion.disableShield", "title": "Mai Corp: Disable Secret Shield" },
+      { "command": "maiCorpCompanion.startDemo", "title": "Mai Corp: Start Demo Mode" },
+      { "command": "maiCorpCompanion.stopDemo", "title": "Mai Corp: Stop Demo Mode" },
+      { "command": "maiCorpCompanion.preClassCheck", "title": "Mai Corp: Run Pre-Class Security Check" },
+      { "command": "maiCorpCompanion.hideProtectedFiles", "title": "Mai Corp: Hide Selected Protected Files from Explorer" },
+      { "command": "maiCorpCompanion.envCoach", "title": "Mai Corp: Environment Variable Coach" },
+      { "command": "maiCorpCompanion.generateEnvExample", "title": "Mai Corp: Generate Safe .env.example" },
+      { "command": "maiCorpCompanion.inspectSupabase", "title": "Mai Corp: Inspect Supabase Project" },
+      { "command": "maiCorpCompanion.copyLessonPrompt", "title": "Mai Corp: Copy Lesson Prompt" },
+      { "command": "maiCorpCompanion.previewCommand", "title": "Mai Corp: Preview and Run a Command" }
+    ],
+    "configuration": {
+      "title": "Mai Corp App Class Companion",
+      "properties": {
+        "maiCorpCompanion.secretShield.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scan opened and edited text documents locally for likely secrets."
+        },
+        "maiCorpCompanion.protectedTeachingSession": {
+          "type": "boolean",
+          "default": false,
+          "description": "Require confirmation before disabling Secret Shield."
+        },
+        "maiCorpCompanion.sensitiveNames": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Additional variable names to treat as sensitive (names only; never values)."
+        },
+        "maiCorpCompanion.exclude": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["**/node_modules/**", "**/.git/**", "**/dist/**", "**/build/**"],
+          "description": "Glob patterns excluded from local workspace scans."
+        },
+        "maiCorpCompanion.protectedFiles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["**/.env", "**/.env.*", "**/*.pem", "**/*.key", "**/secrets/**", "**/credentials/**"],
+          "description": "Files to call out during teaching checks. This does not control screen capture."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}

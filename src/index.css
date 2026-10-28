@@ -1,0 +1,156 @@
+
+/* Mai Corp App Class visual system — dark grey and blue theme. */
+:root {
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+
+  color-scheme: dark;
+
+  --ink: #d1d5db;
+  --muted: #9ca3af;
+  --paper: #111318;
+  --white: #1b1f27;
+
+  --green: #3b82f6;
+  --lime: #60a5fa;
+
+  --line: #303641;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --heading: Inter, 'Segoe UI', Arial, sans-serif;
+
+  --surface: #181c24;
+  --surface-raised: #202631;
+  --surface-hover: #272f3c;
+  --blue-dark: #1e3a8a;
+  --blue: #3b82f6;
+  --blue-light: #60a5fa;
+  --blue-glow: rgb(59 130 246 / 18%);
+
+  color: var(--ink);
+  background: var(--paper);
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  background: var(--paper);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--blue-light);
+  text-decoration-color: rgb(96 165 250 / 45%);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: #93c5fd;
+}
+
+button {
+  color: var(--ink);
+  background-color: var(--surface-raised);
+  border-color: var(--line);
+}
+
+button:hover {
+  background-color: var(--surface-hover);
+}
+
+input,
+select,
+textarea {
+  color: var(--ink);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #737d8d;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  color: #dbeafe;
+  background: #1d4ed8;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}
+
+/* Consistent dark surfaces for common elements. */
+.card,
+.panel,
+.modal,
+.dropdown-menu,
+.popover,
+table {
+  background-color: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+/* Keep disabled controls visibly disabled without turning them white. */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  color: #737d8d;
+  background-color: #171a21;
+  border-color: #292e38;
+  cursor: not-allowed;
+}
+
+/* Blue accent for interactive controls. */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-color: var(--blue-light);
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
